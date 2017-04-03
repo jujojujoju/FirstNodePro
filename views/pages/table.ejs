@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <title>바른투자:: 관리자 페이지</title>
+
+    <!-- Jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <!-- Bootstrap -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+
+    <!--bootstrap-table-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css">
+
+    <!-- index CSS file import -->
+    <link rel="stylesheet" type="text/css" href="css/global.css">
+    <link rel="stylesheet" type="text/css" href="css/table.css">
+
+    <!-- javscript import -->
+    <% include ../logics/table %>
+
+</head>
+
+<body>
+<h1 align="left" style="margin-left: 30px">
+    관리자 페이지
+</h1>
+
+<div id="table_wrapper" style="padding: 10px; ">
+    <a download="hp-data.csv" class="btn btn-default" id="csv_download_btn">CSV</a>
+    <table id="table"
+           data-height="542"
+           data-page-size="10"
+           data-pagination-pre-text="이전"
+           data-pagination-next-text="다음"
+           data-sort-name="id"
+           data-sort-order="desc">
+
+        <thead>
+        <tr>
+            <th data-field="id" data-sortable="true" >번호</th>
+            <th data-field="hp" data-sortable="true">핸드폰 번호</th>
+            <th data-field="hp_regtime" data-sortable="true">등록 일자</th>
+        </tr>
+        </thead>
+    </table>
+</div>
+</body>
+
+</html>

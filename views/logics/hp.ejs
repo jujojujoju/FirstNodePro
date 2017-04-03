@@ -1,0 +1,51 @@
+<script>
+
+    // 성공시 / 전화번호 중복 시 / 에러 발생 시
+    var queryParam = decodeURIComponent(window.location.search.substring(1));
+    if (queryParam == 'success') {
+        alert('신청해주셔서 감사합니다. 분석자료를 확인하여 빠른 시일내에 안내해 드리겠습니다.');
+        window.location.search = '';
+    } else if (queryParam == 'duplication') {
+        alert('전화번호가 중복됩니다.');
+        window.location.search = '';
+    } else if (queryParam == 'fail') {
+        alert('데이터베이스 에러가 발생했습니다.');
+        window.location.search = '';
+    }
+
+    $(document).ready(function () {
+
+        $('#hp_form').submit(function () {
+
+            // TODO 로딩아닌데 로딩인척하기
+
+            var isNum1 = /^\d+$/.test($('#hp_input_2').val());
+            var isNum2 = /^\d+$/.test($('#hp_input_3').val());
+
+            var isChecked1 = $('#check_1').is(':checked');
+            var isChecked2 = $('#check_2').is(':checked');
+
+            console.log(isChecked1);
+            console.log(isChecked2);
+
+            if (!isNum1 || !isNum2) {
+                alert('전화번호 형식에 맞게 입력해 주세요!');
+                $('#hp_input_2').val('');
+                $('#hp_input_3').val('');
+                return false;
+            } else if (!isChecked1) {
+                alert('서비스 이용약관에 동의해주세요.')
+                return false;
+            } else if (!isChecked2) {
+                alert('추천 주식정보 문자 수신에 동의해 주세요.');
+                return false;
+            } else if ($('#hp_input_2').val().length != 4 || $('#hp_input_3').val().length != 4) {
+                alert('전화번호 길이를 확인해주세요');
+                return false;
+            } else {
+                return true;
+            }
+        });
+    });
+
+</script>

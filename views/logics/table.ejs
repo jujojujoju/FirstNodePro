@@ -1,0 +1,115 @@
+<script>
+    // 성공시 / 전화번호 중복 시 / 에러 발생 시
+    var queryParam = decodeURIComponent(window.location.search.substring(1));
+    if (queryParam == 'success') {
+        alert('로그인 성공');
+        window.location.search = '';
+    }
+
+
+    $(document).ready(function () {
+
+        var data = JSON.parse('<%- JSON.stringify(data) %>');
+
+        var dateArray = [];
+        for (var i in data) {
+            var datastring = data[i].hp_regtime;
+
+            var year = datastring.substr(0,4);
+            var month = datastring.substr(4,2);
+            var day = datastring.substr(6,2);
+
+            dateArray.push(year);
+            dateArray.push(month);
+            dateArray.push(day);
+            dateArray.push(datastring.slice(8, 10));
+            dateArray.push(datastring.slice(10, 12));
+            dateArray.push(datastring.slice(12, 14));
+
+            data[i].hp_regtime = ''
+            data[i].hp_regtime =
+                dateArray[0] + '-' +
+                dateArray[1] + '-' +
+                dateArray[2] + '  ' +
+                dateArray[3] + ':' +
+                dateArray[4] + ':' +
+                dateArray[5];
+
+            dateArray = [];
+        }
+
+        for(var i in data)
+            {
+                data[i].id = ++i;
+            }
+
+        $(function () {
+            $('#table').bootstrapTable({
+                data: data,
+                pagination: true,
+                search: true
+            });
+        });
+
+        function msieversion() {
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+            if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) // If Internet Explorer, return true
+            {
+                return true;
+            } else { // If another browser,
+
+                return false;
+            }
+            return false;
+        }
+        $('#csv_download_btn').click(function () {
+
+            var arrData = typeof data != 'object' ? JSON.parse(data) : data;
+            var CSV = '';
+            if (true) {
+                var row = "";
+                for (var index in arrData[0]) {
+                    row += index + ',';
+                }
+                row = row.slice(0, -1);
+                CSV += row + '\r\n';
+            }
+            for (var i = 0; i < arrData.length; i++) {
+                var row = "";
+                for (var index in arrData[i]) {
+                    var arrValue = arrData[i][index] == null ? "" : '="' + arrData[i][index] + '"';
+                    row += arrValue + ',';
+                }
+                row.slice(0, row.length - 1);
+                CSV += row + '\r\n';
+            }
+            if (CSV == '') {
+                growl.error("Invalid data");
+                return;
+            }
+
+            var fileName = "Result";
+
+            if(msieversion()){
+                var IEwindow = window.open();
+                IEwindow.document.write('sep=,\r\n' + CSV);
+                IEwindow.document.close();
+                IEwindow.document.execCommand('SaveAs', true, fileName + ".csv");
+                IEwindow.close();
+            } else {
+                var uri = 'data:application/csv;charset=utf-8,' + escape(CSV);
+                var link = document.createElement("a");
+                link.href = uri;
+                link.style = "visibility:hidden";
+                link.download = fileName + ".csv";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+
+        });
+
+    });
+
+</script>
